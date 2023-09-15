@@ -18,15 +18,30 @@ Category.hasMany(Product,{
 
 // Products belongToMany Tags (through ProductTag)
 Product.belongsToMany(ProductTag,{
-  foreignKey: 'product_id',
+  // Use ProductTags as a join table on the product_id field
+  through: 'ProductTags',
+  // Use the tag_id field to match to the id field in the Tag model
+  foreignKey: 'tag_id',
+  // Use the product_id field to match to the id field in the Product model
+  otherKey: 'product_id',
+  // Use CASCADE on update and delete to propagate the changes to the junction table
+  onUpdate: 'CASCADE',
   onDelete: 'CASCADE',
 });
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany(ProductTag,{
-  foreignKey: 'tag_id',
-  onDelete: 'CASCADE',
+// Jse ProductTags as a join table on the tag_id field
+  through: 'ProductTags',
+  // Use the tag_id field to match to the id field in the Tag model
+  foreignKey: 'product_id',
+  // Use the product_id field to match to the id field in the Product model
+  otherKey: 'tag_id',
+  // Use CASCADE on update and delete to propagate the changes to the junction table
+  onUpdate: 'CASCADE',
+  onDelete: 'CASCADE',  
 });
+
 
 module.exports = {
   Product,
